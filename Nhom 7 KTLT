@@ -1,1 +1,63 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
+#define MAX_DEGREE 100
+
+//Cau truc bieu dien
+typedef struct {
+    int degree;          
+    float coef[MAX_DEGREE + 1];  
+} Polynomial;
+
+// Ham nhap da thuc
+void inputPolynomial(Polynomial *p) {
+    printf("Nhap bac cao nhat cua da thuc: ");
+    scanf("%d", &p->degree);
+
+    if (p->degree > MAX_DEGREE) {
+        printf("Bac da thuc qua lon. Gioi han la %d.\n", MAX_DEGREE);
+        p->degree = MAX_DEGREE;
+    }
+
+    printf("Nhap cac he so cua da thuc (tu bac cao nhat den bac 0):\n");
+    for (int i = p->degree; i >= 0; i--) {
+        printf("He so cua x^%d: ", i);
+        scanf("%f", &p->coef[i]);
+    }
+}
+// Ham hien thi da thuc
+void displayPolynomial(Polynomial p) {
+    int firstTerm = 1;
+
+    for (int i = p.degree; i >= 0; i--) {
+        if (p.coef[i] != 0) {
+            if (p.coef[i] > 0 && !firstTerm) {
+                printf(" + ");
+            } else if (p.coef[i] < 0) {
+                printf(" - ");
+                p.coef[i] = -p.coef[i];  
+            }
+
+            if (i == 0 || p.coef[i] != 1) {
+                printf("%.2f", p.coef[i]);
+            }
+
+            if (i > 0) {
+                printf("x");
+                if (i > 1) {
+                    printf("^%d", i);
+                }
+            }
+
+            firstTerm = 0;
+        }
+    }
+
+    if (firstTerm) { 
+        printf("0");
+    }
+
+    printf("\n");
+}
